@@ -1,46 +1,29 @@
-//============================================================================
-// Name        : Code.cpp
-// Author      : orange
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
+// constructing sets
 #include <iostream>
-#include <cstdio>
-#include <stack>
-#include <queue>
+#include <set>
 
-#include <deque>
-using namespace std;
-int main()
+bool fncomp (int lhs, int rhs) {return lhs<rhs;}
+
+struct classcomp {
+  bool operator() (const int& lhs, const int& rhs) const
+  {return lhs<rhs;}
+};
+
+int main ()
 {
-	stack<int> S;
+  std::set<int> first;                           // empty set of ints
 
-	S.push(1);
-	S.push(2);
-	S.push(3);
+  int myints[]= {10,20,30,40,50};
+  std::set<int> second (myints,myints+5);        // range
 
-	cout<<S.top()<<endl;
-	S.pop();
-	cout<<S.top()<<endl;
-	S.pop();
-	cout<<S.top()<<endl;
-	S.pop();
-	//cout<<S.top()<<endl;
-	cout<<"**************************"<<endl;
-	queue<int> que;
-	que.push(1);
-	que.push(2);
-	que.push(3);
-	cout<<"size "<<que.size()<<endl;
-	cout<<que.front()<<" "<<que.back()<<endl;
-	cout<<que.front()<<endl;
-	que.pop();
-	cout<<que.front()<<endl;
-	que.pop();
-	cout<<que.front()<<endl;
-	que.pop();
+  std::set<int> third (second);                  // a copy of second
 
-	return 0;
+  std::set<int> fourth (second.begin(), second.end());  // iterator ctor.
+
+  std::set<int,classcomp> fifth;                 // class as Compare
+
+  bool(*fn_pt)(int,int) = fncomp;
+  std::set<int,bool(*)(int,int)> sixth (fn_pt);  // function pointer as Compare
+
+  return 0;
 }
